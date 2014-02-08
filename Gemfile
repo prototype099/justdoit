@@ -29,6 +29,8 @@ gem 'jbuilder', '~> 1.2'
 
 
 gem 'devise'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
 gem 'kaminari'
 gem 'paranoia', '~> 2.0'
 
