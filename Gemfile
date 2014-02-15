@@ -34,6 +34,7 @@ gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'kaminari'
 gem 'paranoia', '~> 2.0'
+gem 'state_machine'
 
 
 group :development, :test do

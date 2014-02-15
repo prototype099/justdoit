@@ -1,6 +1,7 @@
 Justdoit::Application.routes.draw do
 
   root 'home#index'
+  get "boards/:event_id" => 'boards#index', as: :board
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   
@@ -9,7 +10,10 @@ Justdoit::Application.routes.draw do
   #   get 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
   # end
 
-  resources :events
+  resources :events do
+    resources :tasks
+  end
+  
 
 
   # Example of regular route:

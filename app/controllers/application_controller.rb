@@ -10,4 +10,9 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:name, :email) }
   end
 
+  def detect_event
+    @event = Event.find(params[:event_id])
+    redirect_to root_url, alert: "invalid url" and return unless @event
+  end
+
 end

@@ -1,0 +1,9 @@
+<h1>Boards#index</h1>
+<p>Find me in app/views/boards/index.html.erb</p>
+
+
+<% @tasks.each do |task| %>
+  <div>
+    <%= task.content %>
+  </div>
+<% end %>
