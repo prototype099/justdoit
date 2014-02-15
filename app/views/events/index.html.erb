@@ -27,8 +27,8 @@
         <td><%= event.start_time %></td>
         <td><%= event.end_time %></td>
         <td><%= link_to 'Show', event %></td>
-        <td><%= link_to 'Edit', edit_event_path(event) %></td>
-        <td><%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Edit', edit_event_path(event) if event.can_edit?(current_user) %></td>
+        <td><%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } if event.can_edit?(current_user) %></td>
       </tr>
     <% end %>
   </tbody>
