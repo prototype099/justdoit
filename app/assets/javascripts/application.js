@@ -11,6 +11,13 @@
 // about supported directives.
 //
 //= require jquery
+//// require jquery.ui.core
+//= require jquery.ui.datepicker
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+
+$(function() {
+  $('.datepicker').datepicker("option", "dateFormat", 'yy-mm-dd');
+});
