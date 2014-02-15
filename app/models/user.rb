@@ -7,7 +7,10 @@ class User < ActiveRecord::Base
 
   has_many :oauth_tokens, dependent: :destroy
 
-
+  def has_role?(role)
+    return false unless role
+    self.role == role.to_s
+  end
 
   def self.find_for_facebook_oauth(auth, signed_in_resource = nil)
     return signed_in_resource if signed_in_resource

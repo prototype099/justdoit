@@ -8,3 +8,9 @@
     <li><%= link_to "facebookでログイン", user_omniauth_authorize_path(:facebook) %></li>
   <% end %>
 </ul>
+
+<div>
+  <% if user_signed_in? and current_user.has_role?(:admin) %>
+    admin!
+  <% end %>
+</div>
