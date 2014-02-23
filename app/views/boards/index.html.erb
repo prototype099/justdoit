@@ -1,9 +1,76 @@
+<script>
+
+$(function(){
+
+  $('#createTaskModal').on('hide.bs.modal', function(){
+    //This event is fired immediately when the hide instance method has been called.
+    $('#task_content').val("");
+  });
+
+
+  $('#new_task')
+    .bind('ajax:beforeSend', function(evt, xhr, settings){
+      var $submit = $(this).find('input[name="commit"]');
+      $submit.data({
+        'event_id'    : $(this).find('#task_event_id').val(),
+        'task_content': $(this).find('#task_content').val(),
+      })
+    })
+    .bind('ajax:success', function(evt, data, status, xhr){
+      var $form = $(this);
+      var response = $.parseJSON(xhr.responseText);
+      $('#tasks').append(response.content);
+      $('#createTaskModal').modal('hide');
+      alert('called ajax:success');
+    })
+    .bind('ajax:error', function(evt, xhr, status, error){
+      var $form = $(this);
+      var e = $.parseJSON(xhr.responseText);
+      alert(e.error_message);
+    })
+    .bind('ajax:complete', function(evt, xhr, status){
+      //alert('Called ajax:complete');
+    });
+
+});
+
+</script>
 <h1>Boards#index</h1>
-<p>Find me in app/views/boards/index.html.erb</p>
 
+<button class="btn btn-primary" data-toggle="modal" data-target="#createTaskModal">
+  Create new Task
+</button>
 
+<div id="tasks">
 <% @tasks.each do |task| %>
-  <div>
-    <%= task.content %>
-  </div>
+    <div><%= task.content %></div>
 <% end %>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="createTaskModal" tabindex="-1" role="dialog" aria-labelledby="createTaskLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="createTaskModalLabel">Create Task</h4>
+      </div>
+
+    <%= form_for([:api, @task], remote: true) do |f| %>
+      <div class="modal-body">
+        <%= f.hidden_field :event_id %>
+        <div class="field">
+          <%= f.label :content %><br>
+          <%= f.text_area :content %>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <%= f.submit class: "btn btn-primary" %>
+      </div>
+    <% end %>
+
+    </div>
+  </div>
+</div>
+

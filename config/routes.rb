@@ -1,5 +1,10 @@
 Justdoit::Application.routes.draw do
 
+ 
+  namespace :api, defaults: { format: :json } do
+    resources :tasks
+  end
+
   root 'home#index'
   get "boards/:event_id" => 'boards#index', as: :board
 
@@ -10,9 +15,8 @@ Justdoit::Application.routes.draw do
   #   get 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
   # end
 
-  resources :events do
-    resources :tasks
-  end
+  resources :events
+  #resources :tasks
   
 
 
