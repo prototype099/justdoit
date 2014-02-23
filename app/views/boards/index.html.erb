@@ -43,7 +43,7 @@ $(function(){
 
 <div id="tasks">
 <% @tasks.each do |task| %>
-    <div><%= task.content %></div>
+    <div><%= fb_icon task.user %><%= task.user.name %>/<%= task.content %></div>
 <% end %>
 </div>
 
