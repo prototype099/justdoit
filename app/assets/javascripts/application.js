@@ -15,6 +15,7 @@
 //= require jquery.ui.core
 //= require jquery.ui.datepicker
 //= require turbolinks
+//= require knockout-3.0.0
 //= require_tree .
 
 

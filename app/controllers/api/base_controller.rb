@@ -16,7 +16,7 @@ class Api::BaseController < ApplicationController
     respond_with({success: true}.merge(options), status: 200, location: nil)
   end
 
-  def respond1_failure_with(code, message, options={})
+  def respond_failure_with(code, message, options={})
     respond_with({success: false, error_code: code, error_message: message }.merge(options), status: code, location: nil)
   end
 

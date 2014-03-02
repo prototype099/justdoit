@@ -41,11 +41,28 @@ $(function(){
   Create new Task
 </button>
 
-<div id="tasks">
+<div>
+<textarea data-bind="value: inputTaskContent" ></textarea>
+<button data-bind="click: createTask">create</button>
+
+</div>
+
+<div id="t">
+<ui data-bind="foreach: tasks">
+  <li>
+    <span data-bind="text: $index"></span>:
+    <img data-bind="attr: {src: avator_url}"/>
+    <span data-bind="text: name"></span> 
+    <span data-bind="text: content"></span> 
+  </li>
+</ui>
+</div>
+
+<!--div id="tasks">
 <% @tasks.each do |task| %>
     <div><%= fb_icon task.user %><%= task.user.name %>/<%= task.content %></div>
 <% end %>
-</div>
+</div-->
 
 <!-- Modal -->
 <div class="modal fade" id="createTaskModal" tabindex="-1" role="dialog" aria-labelledby="createTaskLabel" aria-hidden="true">

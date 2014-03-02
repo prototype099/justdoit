@@ -1,18 +1,35 @@
 class Api::TasksController < Api::BaseController
 
   def index
-    respond_success_with(message: 'OK')
+    tasks = Task.includes(:user)
+                  .includes(:user => :oauth_tokens)
+                  .order(:updated_at)
+                  .reverse_order
+
+    respond_success_to message: 'OK', tasks: tasks.as_json(:include => { 
+                                                              :user => {
+                                                                :include => { :oauth_tokens => {:only => [:uid]} },
+                                                                :only => [:name],
+                                                              },
+                                                            })
   end
 
   def create
-    @task = Task.new(task_params)
-    @task.user_id = current_user.id
+    task = Task.new(task_params)
+    task.user_id = current_user.id
     logger.debug "@task is #{@task.inspect}"
 
-    unless @task.save
-      respond_success_with({message:'Task was successfully created.'}.merge(task_params))
+    if task.save
+      respond_success_with( message: 'Task was successfully created.',
+                            task: task.as_json(:include => { 
+                                                  :user => {
+                                                    :include => { :oauth_tokens => {:only => [:uid]} },
+                                                    :only => [:name],
+                                                  },
+                                                })
+                            )
     else
-      respond1_failure_with(500, 'NG');
+      respond_failure_with(500, 'NG');
     end
 
   end
@@ -20,7 +37,7 @@ class Api::TasksController < Api::BaseController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_task
-      @task = Task.find(params[:id])
+      task = Task.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
