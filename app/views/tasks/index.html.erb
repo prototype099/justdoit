@@ -3,6 +3,7 @@
 <table>
   <thead>
     <tr>
+      <th>Id</th>
       <th>Event</th>
       <th>User</th>
       <th>Content</th>
@@ -16,13 +17,14 @@
   <tbody>
     <% @tasks.each do |task| %>
       <tr>
+        <td><%= task.id %></td>
         <td><%= task.event_id %></td>
         <td><%= task.user_id %></td>
         <td><%= task.content %></td>
         <td><%= task.state %></td>
-        <td><%= link_to 'Show', event_task_path(@event, task) %></td>
-        <td><%= link_to 'Edit', edit_event_task_path(@event, task) %></td>
-        <td><%= link_to 'Destroy', event_task_path(@event, task), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', task_path(task) %></td>
+        <td><%= link_to 'Edit', edit_task_path(task) %></td>
+        <td><%= link_to 'Destroy', task_path(task), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -30,4 +32,4 @@
 
 <br>
 
-<%= link_to 'New Task', new_event_task_path %>
+<%= link_to 'New Task', new_task_path %>

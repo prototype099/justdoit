@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
          :confirmable, :omniauthable
 
   has_many :oauth_tokens, dependent: :destroy
+  
 
   def has_role?(role)
     return false unless role

@@ -11,9 +11,16 @@ $(function(){
 
 function Task(task) {
 	var self = this;
+
+	self.id 		= task.id;
 	self.name 		= task.name;
 	self.content 	= task.content;
 	self.uid 		= task.uid;
+
+	self.edit_url	= ko.computed(function(){
+		return "/tasks/" + self.id + '/edit';
+	}, this);
+
 	self.avator_url = ko.computed(function(){
 		return "https://graph.facebook.com/" + self.uid + "/picture?type=square";
 	}, this);
@@ -28,31 +35,24 @@ function TaskBoardViewModel() {
 		console.log(this.inputTaskContent());
 		this.registerTask();
 	}
-
-	this.addTask = function(task) {
-		this.tasks.push(task);
-	};
-
-	this.removeTask = function() {
-		this.tasks.remove(this);
-	};
 }
 
 TaskBoardViewModel.prototype.loadTasks = function() {
 	var self = this;
 	$.ajax({
 		type: "GET",
-		url: "/api/tasks",
+		url: gon.api_tasks_path,
 	})
 	.done(function(data, status, settings) {
-		$.each(data.tasks, function(){
+		for(var i=0; i<data.tasks.length; i++) {
 			var task = new Task({
-				name: this.user.name,
-				content:  this.content,
-				uid: this.user.oauth_tokens[0].uid,
+				id: 	data.tasks[i].id,
+				name: 	data.tasks[i].user.name,
+				content: data.tasks[i].content,
+				uid: 	data.tasks[i].user.oauth_tokens[0].uid,
 			});
 			self.tasks.push(task);
-		});
+		}
 	});
 }
 
@@ -60,24 +60,27 @@ TaskBoardViewModel.prototype.registerTask = function() {
 	var self = this;
 	$.ajax({
 		type: "POST",
-		url: "/api/tasks",
+		url: gon.api_tasks_path,
 		data: {
 			task: {
-				event_id: 1,
-				content: self.inputTaskContent(),
+				event_id: gon.event_id,
+				content: this.inputTaskContent(),
 			},
 		},
 	})
 	.done(function(data, status, settings) {
 		var task = new Task({
-			name: data.task.user.name,
+			id: 	data.task.id,
+			name: 	data.task.user.name,
 			content:  data.task.content,
-			uid: data.task.user.oauth_tokens[0].uid,
+			uid: 	data.task.user.oauth_tokens[0].uid,
 		});
 		//先頭に挿入
 		self.tasks.unshift(task);
+		self.inputTaskContent("");
 	})
 	.fail(function(xhr, status, errorThrown){
+		// TODO error handling
 		alert("fail");
 		console.log(xhr);
 		console.log(status);

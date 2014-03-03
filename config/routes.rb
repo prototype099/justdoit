@@ -16,7 +16,7 @@ Justdoit::Application.routes.draw do
   # end
 
   resources :events
-  #resources :tasks
+  resources :tasks
   
 
 

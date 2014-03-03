@@ -32,7 +32,7 @@ gem 'omniauth-twitter'
 gem 'kaminari'
 gem 'paranoia', '~> 2.0'
 gem 'state_machine'
-
+gem 'gon'
 
 group :development, :test do
 
