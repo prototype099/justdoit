@@ -1,10 +1,12 @@
 class Api::TasksController < Api::BaseController
 
   def index
-    tasks = Task.includes(:user)
-                  .includes(:user => :oauth_tokens)
-                  .order(:updated_at)
-                  .reverse_order
+
+    logger.debug "params[:event_id] is #{params[:event_id]}"
+
+    tasks = Task.includes(:user).includes(:user => :oauth_tokens)
+    tasks = tasks.where(event_id: params[:event_id]) if params[:event_id]
+    tasks = tasks.order(:updated_at).reverse_order
 
     respond_success_to message: 'OK', tasks: tasks.as_json(:include => { 
                                                               :user => {

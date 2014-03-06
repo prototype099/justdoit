@@ -28,6 +28,7 @@ class Task < ActiveRecord::Base
   end
 
   def can_edit?(user)
+    return false unless user
     (user.id == self.user_id) or user.has_role?(:admin)
   end
 

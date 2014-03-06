@@ -2,6 +2,7 @@ Justdoit::Application.routes.draw do
 
  
   namespace :api, defaults: { format: :json } do
+    get ':event_id/tasks' => 'tasks#index', :as => 'event_tasks'
     resources :tasks
   end
 
