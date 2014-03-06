@@ -13,3 +13,7 @@
  *
  *= require jquery.ui.datepicker
  */
+
+body {
+  padding-top: 50px;
+}
