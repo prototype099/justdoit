@@ -21,6 +21,11 @@ class TasksController < ApplicationController
 
   # GET /tasks/1/edit
   def edit
+
+    gon.task_id = @task.id
+    gon.api_task_comments_path = url_for(controller: 'api/comments', action: :index, task_id: @task.id )
+    gon.api_create_comment_path = url_for(controller: 'api/comments', action: :create, task_id: @task.id)
+
   end
 
   # POST /tasks

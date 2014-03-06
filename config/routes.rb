@@ -2,9 +2,18 @@ Justdoit::Application.routes.draw do
 
  
   namespace :api, defaults: { format: :json } do
-    get ':event_id/tasks' => 'tasks#index', :as => 'event_tasks'
-    get ':event_id/members' => 'event_members#index', :as => 'event_members'
-    resources :tasks
+
+    scope :events do
+      get ':event_id/tasks' => 'tasks#index', :as => 'event_tasks'
+      get ':event_id/members' => 'event_members#index', :as => 'event_members'
+    end
+    # get ':event_id/tasks' => 'tasks#index', :as => 'event_tasks'
+    # get ':event_id/members' => 'event_members#index', :as => 'event_members'
+    resources :tasks do
+      resources :comments
+    end
+    
+    
   end
 
   root 'home#index'

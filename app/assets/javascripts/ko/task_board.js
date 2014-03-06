@@ -12,7 +12,7 @@ function Task(task) {
 	}, this);
 
 	self.avator_url = ko.computed(function(){
-		return "https://graph.facebook.com/" + self.uid + "/picture?type=square";
+		return fb_avator_url(self.uid);
 	}, this);
 }
 
@@ -23,7 +23,7 @@ function Member(user_id, uid) {
 	self.uid 		= uid;
 
 	self.member_avator_url = ko.computed(function(){
-		return "https://graph.facebook.com/" + self.uid + "/picture?type=square";
+		return fb_avator_url(self.uid);
 	}, this);
 }
 
@@ -98,7 +98,7 @@ TaskBoardViewModel.prototype.registerTask = function() {
 	.fail(function(xhr, status, errorThrown){
 		// TODO error handling
 		alert("fail");
-		data = $.parseJSON(xhr.responseText);
+		var data = $.parseJSON(xhr.responseText);
 		console.log(data);
 		console.log(xhr.responseText);
 		console.log(status);

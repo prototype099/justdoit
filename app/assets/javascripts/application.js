@@ -16,6 +16,7 @@
 //= require jquery.ui.datepicker
 //= require turbolinks
 //= require knockout-3.0.0
+//= require_directory ./libs
 //= require_directory ./ko
 // require_tree .
 

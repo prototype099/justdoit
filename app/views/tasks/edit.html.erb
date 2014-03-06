@@ -1,11 +1,24 @@
 <h1>Editing task</h1>
 
-<% render 'form' %>
-
+<div>
 <% if @task.can_edit?(current_user)  %>
-<textarea><%= @task.content %></textarea>
+  <textarea><%= @task.content %></textarea>
 <% else %>
-<div><%= @task.content %></div>
+  <div><%= @task.content %></div>
 <% end %>
+</div>
 
-<%= link_to 'Back', tasks_path %>
+<div>
+  <textarea data-bind="value: inputComment" ></textarea>
+  <button data-bind="click: createComment">create</button>
+</div>
+
+<div data-bind="foreach: comments">
+  <div>
+    <img data-bind="attr {src: commented_avator_url}">
+    <p data-bind="text: user_name"></p>
+    <p data-bind="text: body"></p>
+  </div>
+</div>
+
+<%= link_to 'back', board_path(@task.event) %>
