@@ -2,6 +2,7 @@ class Event < ActiveRecord::Base
 
   #belongs_to :user, foreign_key: :owner_id
   belongs_to :owner, class_name: :User
+  has_many :event_members
 
   validates :owner_id, presence: true
   validates :title, presence: true, length: { maximum: 255 }

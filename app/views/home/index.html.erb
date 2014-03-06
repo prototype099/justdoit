@@ -1,22 +1,25 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
-
-<ul class="nav">
+<!--ul class="nav">
   <% if user_signed_in? %>
     <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete %></li>
   <% else %>
     <li><%= link_to "facebookでログイン", user_omniauth_authorize_path(:facebook) %></li>
   <% end %>
-</ul>
+</ul-->
 
 <div>
   <% @events.each do |event| %>
+  <h3>Events</h3>
   <div>
-    <%= event.owner.name  %>
-    <%= event.title %>
-    <%= event.description %>
-    <%= event.place %>
-    <%= link_to 'Go!', board_path(event) %>
+    Owner:<%= event.owner.name  %><br />
+    Title:<%= event.title %><br />
+    Desc:<%= event.description %><br />
+    Place:<%= event.place %><br>
+    URL:<%= link_to 'Go!', board_path(event) %>
+    <div>
+      <% event.event_members.each do |member|  %>
+        <%= fb_icon(member.user) if member.user %>
+      <% end %>
+    </div>
   </div>
   <% end %>
 </div>

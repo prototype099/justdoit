@@ -1,20 +1,27 @@
 <h1>Boards#index</h1>
 
+
+<h3>Members</h3>
+<div data-bind="foreach: members">
+  <img data-bind="attr: {src: member_avator_url}" />
+</div>
+
+<h3>Create</h3>
 <button class="btn btn-primary" data-toggle="modal" data-target="#createTaskModal">
   Create new Task
 </button>
-
 <div>
 <textarea data-bind="value: inputTaskContent" ></textarea>
 <button data-bind="click: createTask">create</button>
-
 </div>
 
+<h3>Tasks</h3>
 <div id="t">
 <ui data-bind="foreach: tasks">
   <li>
     <span data-bind="text: $index"></span>:
     <img data-bind="attr: {src: avator_url}"/>
+    <span data-bind="text: user_id"></span>
     <span data-bind="text: name"></span> 
     <span data-bind="text: content"></span>
     <a data-bind="attr: {href: edit_url}">編集</a>

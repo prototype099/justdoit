@@ -5,6 +5,7 @@ class BoardsController < ApplicationController
   def index
 
     gon.event_id = @event.id
+    gon.api_event_members_path = url_for(controller: 'api/event_members', action: :index, event_id: @event.id)
     gon.api_event_tasks_path = url_for(controller: 'api/tasks', action: :index, event_id: @event.id)
     gon.api_create_task_path = url_for(controller: 'api/tasks', action: :create)
 

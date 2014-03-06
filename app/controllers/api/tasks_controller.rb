@@ -20,20 +20,29 @@ class Api::TasksController < Api::BaseController
     task = Task.new(task_params)
     task.user_id = current_user.id
     logger.debug "@task is #{@task.inspect}"
+    
+    is_new_member = false
 
-    if task.save
-      respond_success_with( message: 'Task was successfully created.',
-                            task: task.as_json(:include => { 
-                                                  :user => {
-                                                    :include => { :oauth_tokens => {:only => [:uid]} },
-                                                    :only => [:name],
-                                                  },
-                                                })
-                            )
-    else
-      respond_failure_with(500, 'NG');
+    ActiveRecord::Base.transaction do 
+      if task.save
+        is_new_member = EventMember.create_if_not_exist(task.event_id, task.user_id)
+      else
+        raise "failed to create a task."
+      end
     end
 
+    respond_success_with( message: 'Task was successfully created.',
+                              new_member: is_new_member,
+                              task: task.as_json(:include => { 
+                                                    :user => {
+                                                      :include => { :oauth_tokens => {:only => [:uid]} },
+                                                      :only => [:name],
+                                                    },
+                                                  })
+                              )
+  rescue => e
+    logger.error e.message
+    respond_failure_with(500, e.message)
   end
 
   private
